@@ -35,7 +35,7 @@ input::placeholder{color:#e0ebf2}
 <video id="videoWelcome" src="./privet.mp4" autoplay muted loop playsinline></video>
 <video id="videoSuccess" src="./ura.mp4" preload="auto" muted playsinline hidden></video>
 <video id="videoOops" src="./oops.mp4" preload="auto" muted playsinline hidden></video>
-<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="restart">Начать заново</button></header>
+<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="sound" type="button" aria-pressed="false">Включить звук</button><button id="restart">Начать заново</button></header>
 <main class="panel">
 <section id="game"><small>УРОК НА PLAY · 1 КЛАСС</small><progress id="progress" max="8" value="0" aria-label="Выполнено заданий"></progress>
 <span id="counter"></span><h2 id="question"></h2>
@@ -58,6 +58,18 @@ const questions = [
 ];
 const el = id => document.getElementById(id);
 const welcome = el('videoWelcome');
+let soundEnabled=false, speechActive=false;
+function updateAudio(){
+  for(const video of [welcome,el('videoSuccess'),el('videoOops')]) video.muted=!soundEnabled || speechActive;
+  el('sound').textContent=soundEnabled?'Выключить звук':'Включить звук';
+  el('sound').setAttribute('aria-pressed',String(soundEnabled));
+}
+el('sound').onclick=()=>{
+  soundEnabled=!soundEnabled;
+  updateAudio();
+  const active=[el('videoSuccess'),el('videoOops')].find(video=>!video.hidden)||welcome;
+  active.play().catch(()=>{soundEnabled=false;updateAudio();});
+};
 let index=0, score=0, isLocked=false, generation=0, cancelReaction=null;
 function unlockInterface(){
   isLocked=false;
@@ -77,6 +89,9 @@ function renderQuestion(){
   unlockInterface();
 }
 function react(video,done){
+  welcome.pause();
+  speechActive=false;
+  updateAudio();
   const token=generation;
   let timer,active=true;
   function clean(){
@@ -85,6 +100,7 @@ function react(video,done){
     video.onended=video.onerror=video.onloadedmetadata=null;
     video.pause();
     video.hidden=true;
+    welcome.play().catch(()=>{});
     cancelReaction=null;
   }
   function finish(){
@@ -146,14 +162,18 @@ el('listen').onclick=()=>{
   const voice=speech.getVoices().find(v=>/^ru/i.test(v.lang));
   if(voice) line.voice=voice;
   const token=generation, current=index;
-  line.onerror=e=>{if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
-  try{speech.speak(line);}catch{el('message').textContent=fallback;}
+  line.onstart=()=>{if(token===generation && current===index){speechActive=true;updateAudio();}};
+  line.onend=()=>{if(token===generation && current===index){speechActive=false;updateAudio();}};
+  line.onerror=e=>{if(token===generation && current===index){speechActive=false;updateAudio();}if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
+  try{speech.speak(line);}catch{speechActive=false;updateAudio();el('message').textContent=fallback;}
 };
 function restart(){
   generation++;
   cancelReaction?.();
   for(const video of [el('videoSuccess'),el('videoOops')]){video.pause();video.hidden=true;try{video.currentTime=0;}catch{}}
   window.speechSynthesis?.cancel();
+  speechActive=false;
+  updateAudio();
   index=score=0;
   el('win').hidden=true;
   el('game').hidden=false;
