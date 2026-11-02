@@ -58,14 +58,22 @@ const questions = [
 ];
 const el = id => document.getElementById(id);
 const welcome = el('videoWelcome');
-let soundEnabled=false, speechActive=false;
+let soundEnabled=false, speechActive=false, welcomeHeard=false;
 function updateAudio(){
   for(const video of [welcome,el('videoSuccess'),el('videoOops')]) video.muted=!soundEnabled || speechActive;
+  welcome.muted=!soundEnabled || speechActive || welcomeHeard;
+  welcome.loop=!soundEnabled || welcomeHeard;
   el('sound').textContent=soundEnabled?'Выключить звук':'Включить звук';
   el('sound').setAttribute('aria-pressed',String(soundEnabled));
 }
+welcome.onended=()=>{
+  welcomeHeard=true;
+  updateAudio();
+  welcome.play().catch(()=>{});
+};
 el('sound').onclick=()=>{
   soundEnabled=!soundEnabled;
+  if(soundEnabled){welcomeHeard=false;try{welcome.currentTime=0;}catch{}}
   updateAudio();
   const active=[el('videoSuccess'),el('videoOops')].find(video=>!video.hidden)||welcome;
   active.play().catch(()=>{soundEnabled=false;updateAudio();});
