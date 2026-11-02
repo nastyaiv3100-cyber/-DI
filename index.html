@@ -62,6 +62,17 @@ const questions = [
 ];
 const el = id => document.getElementById(id);
 const welcome = el('videoWelcome');
+let questionAudio=null;
+function stopNarration(){
+  if(questionAudio){
+    questionAudio.onended=questionAudio.onerror=null;
+    questionAudio.pause();
+    questionAudio=null;
+  }
+  window.speechSynthesis?.cancel();
+  speechActive=false;
+  updateAudio();
+}
 let soundEnabled=false, speechActive=false, welcomeHeard=false;
 function updateAudio(){
   for(const video of [welcome,el('videoSuccess'),el('videoOops')]) video.muted=!soundEnabled || speechActive;
@@ -145,7 +156,7 @@ el('form').onsubmit=event=>{
   if(!value){el('message').textContent='Сначала запиши ответ.';el('answer').focus();return;}
   isLocked=true;
   for(const id of ['listen','answer','check']) el(id).disabled=true;
-  window.speechSynthesis?.cancel();
+  stopNarration();
   const task=questions[index];
   const correct=task.answers.indexOf(value)===task.correctIndex;
   el('check').className=correct?'good':'bad';
@@ -167,7 +178,7 @@ el('form').onsubmit=event=>{
   });
 };
 el('answer').oninput=()=>{el('check').className='';el('message').textContent='';};
-el('listen').onclick=()=>{
+function speakQuestion(){
   if(isLocked || index>=questions.length) return;
   const speech=window.speechSynthesis;
   const fallback='Озвучка недоступна. Прочитай задание на панели.';
@@ -182,14 +193,34 @@ el('listen').onclick=()=>{
   line.onend=()=>{if(token===generation && current===index){speechActive=false;updateAudio();}};
   line.onerror=e=>{if(token===generation && current===index){speechActive=false;updateAudio();}if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
   try{speech.speak(line);}catch{speechActive=false;updateAudio();el('message').textContent=fallback;}
+}
+el('listen').onclick=()=>{
+  if(isLocked || index>=questions.length || !el('win').hidden) return;
+  stopNarration();
+  const recording=new Audio('./'+(index+1)+'.mp3');
+  questionAudio=recording;
+  speechActive=true;
+  updateAudio();
+  el('message').textContent='';
+  recording.onended=()=>{
+    if(questionAudio!==recording) return;
+    questionAudio=null;
+    speechActive=false;
+    updateAudio();
+  };
+  function fallback(){
+    if(questionAudio!==recording) return;
+    stopNarration();
+    speakQuestion();
+  }
+  recording.onerror=fallback;
+  recording.play().catch(fallback);
 };
 function restart(){
   generation++;
   cancelReaction?.();
   for(const video of [el('videoSuccess'),el('videoOops')]){video.pause();video.hidden=true;try{video.currentTime=0;}catch{}}
-  window.speechSynthesis?.cancel();
-  speechActive=false;
-  updateAudio();
+  stopNarration();
   index=score=0;
   el('win').hidden=true;
   el('game').hidden=false;
