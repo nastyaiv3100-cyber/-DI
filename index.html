@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="ru">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Звёздная лаборатория · Урок на Play</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}video[hidden],[hidden]{display:none!important}header,.panel{position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238ed,#201b3ad9);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:max(12px,env(safe-area-inset-bottom));left:clamp(10px,2vw,32px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button:disabled{cursor:wait}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{z-index:0;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}#videoSuccess,#videoOops{z-index:1}video[hidden],[hidden]{display:none!important}header,.panel{z-index:3;position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238d9,#201b3abf);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{border-width:0 0 1px;top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:max(12px,env(safe-area-inset-bottom));left:clamp(10px,2vw,32px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button{transition:background .2s,box-shadow .2s,transform .2s}button:hover:enabled{box-shadow:0 0 22px #8aeaf433;transform:translateY(-1px)}button:active:enabled{transform:translateY(0)}button:disabled{cursor:wait}#check.good{box-shadow:0 0 28px #82edb855}#check.bad{box-shadow:0 0 28px #ff9dba55}#counter{display:block;font-size:13px;color:#bfcee3;margin-top:18px}.panel{border-left:2px solid #8cebf780}#win{text-align:center}.medal{text-shadow:0 0 30px #ffe59a88}#answer{min-height:48px}#check,#again{min-height:48px}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
 @media(max-width:850px){.panel{width:min(440px,53vw)}}
-@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(92vw,380px);padding:15px;max-height:calc(100dvh - 92px)}video{object-position:78% center}h2{font-size:21px}}
+@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(88vw,380px);padding:15px;max-height:min(58dvh,calc(100dvh - 92px))}video{object-position:63% center}h2{font-size:21px}}
 @media(max-height:540px){header{padding-block:4px}.panel{max-height:calc(100dvh - 62px);padding:12px}.panel p{margin:5px 0}}
 
-/* Keep the whole film frame inside a softly lit laboratory backdrop. */
+/* Glass controls over the full-screen laboratory video. */
 body{background:radial-gradient(ellipse at 75% 48%,#414052,#112d39 52%,#080f20)}
-video{object-fit:contain;object-position:center;inset:4% 2% 4% 4%;width:94%;height:92%}
 header{background:none;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none;align-items:center}
 header>*{pointer-events:auto}
 h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #07172a}
@@ -23,10 +23,11 @@ h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #0717
 input::placeholder{color:#e0ebf2}
 #message:empty{min-height:0}h2{font-size:clamp(20px,1.65vw,28px)}
 @media(max-width:600px) and (orientation:portrait){
- video{inset:12% 0 auto;width:100%;height:45%;object-position:center}
  .panel{max-height:49dvh}
 }
 </style>
+</head>
+<body>
 <video id="videoWelcome" src="./privet.mp4" autoplay muted loop playsinline></video>
 <video id="videoSuccess" src="./ura.mp4" preload="auto" muted playsinline hidden></video>
 <video id="videoOops" src="./oops.mp4" preload="auto" muted playsinline hidden></video>
@@ -36,7 +37,7 @@ input::placeholder{color:#e0ebf2}
 <span id="counter"></span><h2 id="question"></h2>
 <button id="listen" type="button">▷ Послушать</button>
 <form id="form" autocomplete="off"><p><label for="answer">Нажми „Послушать“, послушай задание и запиши ответ цифрами</label></p>
-<input id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false">
+<input id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false" inputmode="text" aria-describedby="message">
 <button id="check">Проверить</button></form><div id="message" role="status"></div></section>
 <section id="win" hidden><div class="medal">✦</div><small>8 ИЗ 8</small><h2 tabindex="-1" id="congrats">ПОЗДРАВЛЯЕМ!</h2><p>Ты прошёл все испытания и собрал восемь звёзд!</p><button id="again">Играть снова</button></section></main>
 <script>
@@ -103,7 +104,7 @@ function react(video,done){
 }
 el('form').onsubmit=event=>{
   event.preventDefault();
-  if(isLocked || index>=questions.length) return;
+  if(isLocked || index>=questions.length || !el('win').hidden) return;
   const value=el('answer').value.trim().replace(/[\s,]+/g,' ').trim();
   if(!value){el('message').textContent='Сначала запиши ответ.';el('answer').focus();return;}
   isLocked=true;
@@ -131,9 +132,10 @@ el('form').onsubmit=event=>{
 };
 el('answer').oninput=()=>{el('check').className='';el('message').textContent='';};
 el('listen').onclick=()=>{
+  if(isLocked || index>=questions.length) return;
   const speech=window.speechSynthesis;
   const fallback='Озвучка недоступна. Прочитай задание на панели.';
-  if(!speech){el('message').textContent=fallback;return;}
+  if(!speech || typeof SpeechSynthesisUtterance==='undefined'){el('message').textContent=fallback;return;}
   speech.cancel();
   const line=new SpeechSynthesisUtterance(questions[index].question);
   line.lang='ru-RU';line.rate=.88;
@@ -141,11 +143,12 @@ el('listen').onclick=()=>{
   if(voice) line.voice=voice;
   const token=generation, current=index;
   line.onerror=e=>{if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
-  speech.speak(line);
+  try{speech.speak(line);}catch{el('message').textContent=fallback;}
 };
 function restart(){
   generation++;
   cancelReaction?.();
+  for(const video of [el('videoSuccess'),el('videoOops')]){video.pause();video.hidden=true;try{video.currentTime=0;}catch{}}
   window.speechSynthesis?.cancel();
   index=score=0;
   el('win').hidden=true;
@@ -156,4 +159,6 @@ function restart(){
 }
 el('restart').onclick=el('again').onclick=restart;
 restart();
-</script></html>
+</script>
+</body>
+</html>
