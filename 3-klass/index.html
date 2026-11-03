@@ -326,7 +326,23 @@ el('listen').onclick=()=>{
   if(isLocked || index>=questions.length || !el('win').hidden) return;
   stopNarration();
   el('message').textContent='';
-  speakQuestion();
+  const recording=new Audio('./'+(index+1)+'.mp3');
+  questionAudio=recording;
+  speechActive=true;
+  updateAudio();
+  recording.onended=()=>{
+    if(questionAudio!==recording) return;
+    questionAudio=null;
+    speechActive=false;
+    updateAudio();
+  };
+  function fallback(){
+    if(questionAudio!==recording) return;
+    stopNarration();
+    speakQuestion();
+  }
+  recording.onerror=fallback;
+  recording.play().catch(fallback);
 };
 function restart(){
   generation++;
