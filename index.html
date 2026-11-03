@@ -1,17 +1,18 @@
 <!doctype html>
 <html lang="ru">
-<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Звёздная лаборатория · Урок на Play</title>
 <style>
-*{box-sizing:border-box}html{min-height:100%;background:#080f20}body{min-height:100dvh;margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{z-index:0;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}#videoSuccess,#videoOops{z-index:1}video[hidden],[hidden]{display:none!important}header,.panel{z-index:3;position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238d9,#201b3abf);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{border-width:0 0 1px;top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:calc(52px + max(12px,env(safe-area-inset-bottom)));left:clamp(6px,1vw,18px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button{transition:background .2s,box-shadow .2s,transform .2s}button:hover:enabled{box-shadow:0 0 22px #8aeaf433;transform:translateY(-1px)}button:active:enabled{transform:translateY(0)}button:disabled{cursor:wait}#check.good{box-shadow:0 0 28px #82edb855}#check.bad{box-shadow:0 0 28px #ff9dba55}#counter{display:block;font-size:13px;color:#bfcee3;margin-top:18px}.panel{border-left:2px solid #8cebf780}#win{text-align:center}.medal{text-shadow:0 0 30px #ffe59a88}#answer{min-height:48px}#check,#again{min-height:48px}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}video[hidden],[hidden]{display:none!important}header,.panel{position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238ed,#201b3ad9);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:max(12px,env(safe-area-inset-bottom));left:clamp(10px,2vw,32px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button:disabled{cursor:wait}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
 @media(max-width:850px){.panel{width:min(440px,53vw)}}
-@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(88vw,380px);padding:15px;max-height:min(58dvh,calc(100dvh - 92px))}video{object-position:63% center}h2{font-size:21px}}
+@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(92vw,380px);padding:15px;max-height:calc(100dvh - 92px)}video{object-position:78% center}h2{font-size:21px}}
 @media(max-height:540px){header{padding-block:4px}.panel{max-height:calc(100dvh - 62px);padding:12px}.panel p{margin:5px 0}}
 
-/* Glass controls over the full-screen laboratory video. */
+/* All three clips share one edge-to-edge stage. */
 body{background:radial-gradient(ellipse at 75% 48%,#414052,#112d39 52%,#080f20)}
+html,body{width:100%;height:100%;background-color:#101925}
+video{object-fit:cover;object-position:center top;inset:0;width:100%;height:100%}
 header{background:none;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none;align-items:center}
 header>*{pointer-events:auto}
 h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #07172a}
@@ -23,91 +24,124 @@ h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #0717
 input::placeholder{color:#e0ebf2}
 #message:empty{min-height:0}h2{font-size:clamp(20px,1.65vw,28px)}
 @media(max-width:600px) and (orientation:portrait){
+ video{object-position:62% top}
  .panel{max-height:49dvh}
 }
-/* A subtle 1% reduction from the original full-screen framing. */
-@media(min-width:851px){
- video{inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;transform:scale(.99)}
-}
-#stars{display:inline-flex;align-items:center;gap:3px;letter-spacing:0}
-.star{width:23px;height:25px;overflow:visible;filter:drop-shadow(0 2px 1px #040a16)}
-.star.earned{filter:drop-shadow(0 2px 1px #71360a) drop-shadow(0 0 6px #ffd96c80)}
-@media(max-width:600px){.star{width:17px;height:20px}#stars{gap:1px}}
+#choices button{font-size:28px;min-width:70px}#choices .good{background:#216548}#choices .bad{background:#913d58}
 </style>
-</head>
-<body>
-<video id="videoWelcome" src="./privet.mp4" autoplay muted loop playsinline></video>
-<video id="videoSuccess" src="./ura.mp4" preload="auto" muted playsinline hidden></video>
-<video id="videoOops" src="./oops.mp4" preload="auto" muted playsinline hidden></video>
-<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="sound" type="button" aria-pressed="false">Включить звук</button><button id="restart">Начать заново</button></header>
+<video id="videoWelcome" src="../privet.mp4" autoplay muted loop playsinline></video>
+<video id="videoSuccess" src="../ura.mp4" preload="auto" muted playsinline hidden></video>
+<video id="videoOops" src="../oops.mp4" preload="auto" muted playsinline hidden></video>
+<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="restart">Начать заново</button></header>
 <main class="panel">
-<section id="game"><small>УРОК НА PLAY · 1 КЛАСС</small><progress id="progress" max="8" value="0" aria-label="Выполнено заданий"></progress>
+<section id="game"><small>УРОК НА PLAY · 2 КЛАСС</small><progress id="progress" max="11" value="0" aria-label="Выполнено заданий"></progress>
 <span id="counter"></span><h2 id="question"></h2>
 <button id="listen" type="button">▷ Послушать</button>
-<form id="form" autocomplete="off"><p><label for="answer">Нажми „Послушать“, послушай задание и запиши ответ цифрами</label></p>
-<input id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false" inputmode="text" aria-describedby="message">
+<form id="form" autocomplete="off"><p><label id="hint" for="answer">Нажми „Послушать“, послушай задание и запиши ответ цифрами</label></p>
+<div id="choices" hidden><button type="button" data-sign=">">&gt;</button> <button type="button" data-sign="<">&lt;</button></div>
+<input inputmode="numeric" id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false">
 <button id="check">Проверить</button></form><div id="message" role="status"></div></section>
-<section id="win" hidden><div class="medal">✦</div><small>8 ИЗ 8</small><h2 tabindex="-1" id="congrats">ПОЗДРАВЛЯЕМ!</h2><p>Ты прошёл все испытания и собрал восемь звёзд!</p><button id="again">Играть снова</button></section></main>
+<section id="win" hidden><div class="medal">✦</div><small>11 ИЗ 11</small><h2 tabindex="-1" id="congrats">ПОЗДРАВЛЯЕМ!</h2><p>Ты прошёл все испытания и собрал 11 звёзд!</p><button id="again">Играть снова</button></section></main>
 <script>
 'use strict';
 const questions = [
-  {question:"Запиши цифрами числа от пяти до одного.", answers:["5 4 3 2 1"], correctIndex:0},
-  {question:"Запиши число один. Рядом запиши число, которое идёт сразу после него.", answers:["1 2"], correctIndex:0},
-  {question:"Запиши число четыре. Рядом запиши число, которое стоит прямо перед ним.", answers:["4 3"], correctIndex:0},
-  {question:"Запиши число три. Рядом запиши его соседей: сначала меньшее число, потом большее.", answers:["3 2 4"], correctIndex:0},
-  {question:"Какое число получится, если к трём прибавить один?", answers:["4"], correctIndex:0},
-  {question:"Какое число получится, если из четырёх вычесть два?", answers:["2"], correctIndex:0},
-  {question:"Запиши числа два и пять, оставив между ними место. Впиши туда оба пропущенных числа по порядку.", answers:["2 3 4 5"], correctIndex:0},
-  {question:"Я задумал число. Когда я прибавил к нему три, получилось четыре. Какое число я задумал?", answers:["1"], correctIndex:0}
+  {
+    "question": "Какое число при счёте называют между числами 46 и 48?",
+    "answers": [
+      "47"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют сразу после числа 69?",
+    "answers": [
+      "70"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют прямо перед числом 50?",
+    "answers": [
+      "49"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число на 7 больше, чем 25?",
+    "answers": [
+      "32"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют между числами 97 и 99?",
+    "answers": [
+      "98"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "К какому числу прибавили 30, если получили 54?",
+    "answers": [
+      "24"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число надо вычесть из 80, чтобы получить 78?",
+    "answers": [
+      "2"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число вычли из 82, если получили 5?",
+    "answers": [
+      "77"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "К какому числу прибавили 1, если получили 60?",
+    "answers": [
+      "59"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число на 6 меньше, чем 43?",
+    "answers": [
+      "37"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какой знак, > или <, нужно поставить в кружок, чтобы получилось верное неравенство 48 ○ 84?",
+    "answers": [
+      ">",
+      "<"
+    ],
+    "correctIndex": 1
+  }
 ];
 const el = id => document.getElementById(id);
 const welcome = el('videoWelcome');
-let questionAudio=null;
-function stopNarration(){
-  if(questionAudio){
-    questionAudio.onended=questionAudio.onerror=null;
-    questionAudio.pause();
-    questionAudio=null;
-  }
-  window.speechSynthesis?.cancel();
-  speechActive=false;
-  updateAudio();
-}
-let soundEnabled=false, speechActive=false, welcomeHeard=false;
-function updateAudio(){
-  for(const video of [welcome,el('videoSuccess'),el('videoOops')]) video.muted=!soundEnabled || speechActive;
-  welcome.muted=!soundEnabled || speechActive || welcomeHeard;
-  welcome.loop=!soundEnabled || welcomeHeard;
-  el('sound').textContent=soundEnabled?'Выключить звук':'Включить звук';
-  el('sound').setAttribute('aria-pressed',String(soundEnabled));
-}
-welcome.onended=()=>{
-  welcomeHeard=true;
-  updateAudio();
-  welcome.play().catch(()=>{});
-};
-el('sound').onclick=()=>{
-  soundEnabled=!soundEnabled;
-  if(soundEnabled){welcomeHeard=false;try{welcome.currentTime=0;}catch{}}
-  updateAudio();
-  const active=[el('videoSuccess'),el('videoOops')].find(video=>!video.hidden)||welcome;
-  active.play().catch(()=>{soundEnabled=false;updateAudio();});
-};
 let index=0, score=0, isLocked=false, generation=0, cancelReaction=null;
 function unlockInterface(){
   isLocked=false;
+  for(const button of signs){button.disabled=false;button.className="";}
   for(const id of ['listen','answer','check']) el(id).disabled=false;
 }
 function updateScore(){
-  el('stars').innerHTML=questions.map((_,i)=>{
-    const earned=i<score;
-    const colors=earned?['#fffbc2','#ffdb57','#d58413']:['#d0dcea','#71859e','#354359'];
-    return `<svg class="star${earned?' earned':''}" viewBox="0 0 24 26" aria-hidden="true" focusable="false"><defs><linearGradient id="gold-${i}" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="${colors[0]}"/><stop offset=".5" stop-color="${colors[1]}"/><stop offset="1" stop-color="${colors[2]}"/></linearGradient></defs><path d="M12 3 15.3 9.7 22.7 10.8 17.3 16 18.6 23.4 12 19.9 5.4 23.4 6.7 16 1.3 10.8 8.7 9.7Z" fill="${earned?'#955117':'#273447'}"/><path d="m12 1 3.3 6.7 7.4 1.1-5.4 5.2 1.3 7.4-6.6-3.5-6.6 3.5 1.3-7.4-5.4-5.2 7.4-1.1Z" fill="url(#gold-${i})" stroke="${earned?'#ffe9a0':'#9eafc2'}" stroke-width=".6" stroke-linejoin="round"/><path d="M12 1v11L1.3 8.8l7.4-1.1ZM12 12l6.6 9.4-1.3-7.4 5.4-5.2Z" fill="#fff" opacity="${earned?'.3':'.12'}"/></svg>`;
-  }).join('');
-  el('stars').setAttribute('aria-label','Собрано звёзд: '+score+' из восьми');
+  el('stars').textContent='★'.repeat(score)+'☆'.repeat(questions.length-score);
+  el('stars').setAttribute('aria-label','Собрано звёзд: '+score+' из 11');
   el('progress').value=score;
 }
 function renderQuestion(){
+  const choice=questions[index].answers.length>1;
+  el('choices').hidden=!choice;
+  el('answer').hidden=el('check').hidden=choice;
+  el('hint').textContent=choice?'Послушай задание и выбери знак.':'Нажми «Послушать», послушай задание и запиши ответ цифрами.';
   el('counter').textContent='Задание '+(index+1)+' из '+questions.length;
   el('question').textContent=questions[index].question;
   el('answer').value='';
@@ -116,9 +150,6 @@ function renderQuestion(){
   unlockInterface();
 }
 function react(video,done){
-  welcome.pause();
-  speechActive=false;
-  updateAudio();
   const token=generation;
   let timer,active=true;
   function clean(){
@@ -127,7 +158,6 @@ function react(video,done){
     video.onended=video.onerror=video.onloadedmetadata=null;
     video.pause();
     video.hidden=true;
-    welcome.play().catch(()=>{});
     cancelReaction=null;
   }
   function finish(){
@@ -149,18 +179,26 @@ function react(video,done){
     video.play().catch(finish);
   }catch{finish();}
 }
+const signs=el('choices').querySelectorAll('button');
+for(const button of signs) button.onclick=()=>{
+  if(isLocked) return;
+  el('answer').value=button.dataset.sign;
+  el('form').requestSubmit();
+};
 el('form').onsubmit=event=>{
   event.preventDefault();
-  if(isLocked || index>=questions.length || !el('win').hidden) return;
+  if(isLocked || index>=questions.length) return;
   const value=el('answer').value.trim().replace(/[\s,]+/g,' ').trim();
   if(!value){el('message').textContent='Сначала запиши ответ.';el('answer').focus();return;}
   isLocked=true;
+  for(const button of signs) button.disabled=true;
   for(const id of ['listen','answer','check']) el(id).disabled=true;
-  stopNarration();
+  window.speechSynthesis?.cancel();
   const task=questions[index];
   const correct=task.answers.indexOf(value)===task.correctIndex;
   el('check').className=correct?'good':'bad';
   el('message').textContent=correct?'Верно! Звезда твоя.':'Упс! Попробуй еще раз!';
+  for(const button of signs) if(button.dataset.sign===value) button.className=correct?'good':'bad';
   if(correct){score++;updateScore();}
   react(el(correct?'videoSuccess':'videoOops'),()=>{
     if(!correct){
@@ -178,49 +216,23 @@ el('form').onsubmit=event=>{
   });
 };
 el('answer').oninput=()=>{el('check').className='';el('message').textContent='';};
-function speakQuestion(){
-  if(isLocked || index>=questions.length) return;
+el('listen').onclick=()=>{
   const speech=window.speechSynthesis;
   const fallback='Озвучка недоступна. Прочитай задание на панели.';
-  if(!speech || typeof SpeechSynthesisUtterance==='undefined'){el('message').textContent=fallback;return;}
+  if(!speech){el('message').textContent=fallback;return;}
   speech.cancel();
-  const line=new SpeechSynthesisUtterance(questions[index].question);
+  const line=new SpeechSynthesisUtterance(questions[index].question.replace(">", "больше").replace("<", "меньше").replace("○", "кружок"));
   line.lang='ru-RU';line.rate=.88;
   const voice=speech.getVoices().find(v=>/^ru/i.test(v.lang));
   if(voice) line.voice=voice;
   const token=generation, current=index;
-  line.onstart=()=>{if(token===generation && current===index){speechActive=true;updateAudio();}};
-  line.onend=()=>{if(token===generation && current===index){speechActive=false;updateAudio();}};
-  line.onerror=e=>{if(token===generation && current===index){speechActive=false;updateAudio();}if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
-  try{speech.speak(line);}catch{speechActive=false;updateAudio();el('message').textContent=fallback;}
-}
-el('listen').onclick=()=>{
-  if(isLocked || index>=questions.length || !el('win').hidden) return;
-  stopNarration();
-  const recording=new Audio('./'+(index+1)+'.mp3');
-  questionAudio=recording;
-  speechActive=true;
-  updateAudio();
-  el('message').textContent='';
-  recording.onended=()=>{
-    if(questionAudio!==recording) return;
-    questionAudio=null;
-    speechActive=false;
-    updateAudio();
-  };
-  function fallback(){
-    if(questionAudio!==recording) return;
-    stopNarration();
-    speakQuestion();
-  }
-  recording.onerror=fallback;
-  recording.play().catch(fallback);
+  line.onerror=e=>{if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
+  speech.speak(line);
 };
 function restart(){
   generation++;
   cancelReaction?.();
-  for(const video of [el('videoSuccess'),el('videoOops')]){video.pause();video.hidden=true;try{video.currentTime=0;}catch{}}
-  stopNarration();
+  window.speechSynthesis?.cancel();
   index=score=0;
   el('win').hidden=true;
   el('game').hidden=false;
@@ -230,6 +242,4 @@ function restart(){
 }
 el('restart').onclick=el('again').onclick=restart;
 restart();
-</script>
-</body>
-</html>
+</script></html>
