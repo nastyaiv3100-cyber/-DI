@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Звёздная лаборатория · 3 класс · Урок на Play</title>
+<style>
+*{box-sizing:border-box}html{min-height:100%;background:#080f20}body{min-height:100dvh;margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{z-index:0;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}#videoSuccess,#videoOops{z-index:1}video[hidden],[hidden]{display:none!important}header,.panel{z-index:3;position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238d9,#201b3abf);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{border-width:0 0 1px;top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:calc(52px + max(12px,env(safe-area-inset-bottom)));left:clamp(6px,1vw,18px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button{transition:background .2s,box-shadow .2s,transform .2s}button:hover:enabled{box-shadow:0 0 22px #8aeaf433;transform:translateY(-1px)}button:active:enabled{transform:translateY(0)}button:disabled{cursor:wait}#check.good{box-shadow:0 0 28px #82edb855}#check.bad{box-shadow:0 0 28px #ff9dba55}#counter{display:block;font-size:13px;color:#bfcee3;margin-top:18px}.panel{border-left:2px solid #8cebf780}#win{text-align:center}.medal{text-shadow:0 0 30px #ffe59a88}#answer{min-height:48px}#check,#again{min-height:48px}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
+@media(max-width:850px){.panel{width:min(440px,53vw)}}
+@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(88vw,380px);padding:15px;max-height:min(58dvh,calc(100dvh - 92px))}video{object-position:63% center}h2{font-size:21px}}
+@media(max-height:540px){header{padding-block:4px}.panel{max-height:calc(100dvh - 62px);padding:12px}.panel p{margin:5px 0}}
+
+/* Glass controls over the full-screen laboratory video. */
+body{background:radial-gradient(ellipse at 75% 48%,#414052,#112d39 52%,#080f20)}
+header{background:none;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none;align-items:center}
+header>*{pointer-events:auto}
+h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #07172a}
+#stars,header button{border:1px solid #c5f7ff69;background:#13283a85;backdrop-filter:blur(8px);border-radius:30px;padding:8px 13px}
+.panel{background:linear-gradient(130deg,#18314170,#101a3294 60%,#38284478);backdrop-filter:blur(7px) saturate(1.2);-webkit-backdrop-filter:blur(7px) saturate(1.2);border:1px solid #c8f4ff85;box-shadow:inset 0 1px 0 #fff5,inset 0 -1px 0 #ab94ff42,0 8px 28px #06122455;text-shadow:0 1px 4px #031220;padding:clamp(16px,1.5vw,24px)}
+#listen,input{background:#0c213959;border-color:#b8edff85}
+#check,#again{background:linear-gradient(110deg,#27788baf,#514e8acc);border-color:#cbf7ff9c;color:white;text-shadow:0 1px 3px #102434}
+#check.good{background:#216548}#check.bad{background:#913d58}
+input::placeholder{color:#e0ebf2}
+#message:empty{min-height:0}h2{font-size:clamp(20px,1.65vw,28px)}
+@media(max-width:600px) and (orientation:portrait){
+ .panel{max-height:49dvh}
+}
+/* A subtle 1% reduction from the original full-screen framing. */
+@media(min-width:851px){
+ video{inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;transform:scale(.99)}
+}
+#stars{display:inline-flex;align-items:center;gap:3px;letter-spacing:0}
+.star{width:23px;height:25px;overflow:visible;filter:drop-shadow(0 2px 1px #040a16)}
+.star.earned{filter:drop-shadow(0 2px 1px #71360a) drop-shadow(0 0 6px #ffd96c80)}
+@media(max-width:600px){.star{width:17px;height:20px}#stars{gap:1px}}
+#choices{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+#choices button{min-height:52px;font-size:24px;padding:8px 4px}
+#choices button[aria-pressed="true"]{background:linear-gradient(120deg,#286e86,#6756a0);border-color:#b8f8ff;box-shadow:0 0 0 2px #a7f1ff80,inset 0 1px 0 #ffffff50}
+#choices button:focus-visible{outline:3px solid #b899ff;outline-offset:2px}
+#choices.order-choices{grid-template-columns:repeat(2,minmax(0,1fr))}
+#choices.order-choices button{font-size:18px}
+.expression{font-size:clamp(21px,2vw,30px);font-weight:700;white-space:nowrap;padding:20px 0 8px;color:#d5fbff}
+.operation{display:inline-block;position:relative;margin:0 .1em}
+.operation sup{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-size:12px;color:#ffe0a0;line-height:1.3}
+.panel{max-height:calc(100dvh - 155px)}
+@media(max-width:600px){.panel{max-height:min(58dvh,calc(100dvh - 200px))}#question{font-size:20px}}
+@media(max-height:540px){.panel{bottom:12px;max-height:calc(100dvh - 132px)}}
+</style>
+</head>
+<body>
+<video id="videoWelcome" src="../privet.mp4" autoplay muted loop playsinline></video>
+<video id="videoSuccess" src="../ura.mp4" preload="auto" muted playsinline hidden></video>
+<video id="videoOops" src="../oops.mp4" preload="auto" muted playsinline hidden></video>
+<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="sound" type="button" aria-pressed="false">Включить звук</button><button id="restart">Начать заново</button></header>
+<main class="panel">
+<section id="game"><small>УРОК НА PLAY · 3 КЛАСС</small><progress id="progress" max="9" value="0" aria-label="Выполнено заданий"></progress>
+<span id="counter"></span><h2 id="question"></h2>
+<button id="listen" type="button">▷ Послушать</button>
+<div id="orderExpression" class="expression" hidden aria-label="72 минус 5 умножить на (14 минус 6); номера знаков: 1, 2, 3">72 <span class="operation"><sup>1</sup>−</span> 5 <span class="operation"><sup>2</sup>·</span> (14 <span class="operation"><sup>3</sup>−</span> 6)</div>
+<form id="form" autocomplete="off"><p id="answerHint"><label id="answerLabel" for="answer">Нажми „Послушать“, послушай задание и запиши ответ цифрами</label></p>
+<input id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false" inputmode="numeric" aria-describedby="message">
+<div id="choices" role="group" aria-labelledby="question answerHint" hidden></div>
+<button id="check">Проверить</button></form><div id="message" role="status"></div></section>
+<section id="win" hidden><div class="medal">✦</div><small>9 ИЗ 9</small><h2 tabindex="-1" id="congrats">ПОЗДРАВЛЯЕМ!</h2><p>Ты прошёл все испытания и собрал девять звёзд!</p><button id="again">Играть снова</button></section></main>
+<script>
+'use strict';
+const questions = [
+  {
+    "question": "Какое число нужно поставить в окошко, чтобы получилось верное равенство 14 + 14 + 14 + 14 = □ · 4?",
+    "answers": [
+      "4",
+      "14",
+      "56",
+      "18"
+    ],
+    "correctIndex": 1,
+    "type": "choice",
+    "speech": "Какое число нужно поставить в окошко? Четырнадцать плюс четырнадцать плюс четырнадцать плюс четырнадцать равно неизвестное число умножить на четыре."
+  },
+  {
+    "question": "Какой знак действия нужно поставить в кружок, чтобы равенство 16 · 3 = 3 ○ 16 стало верным?",
+    "answers": [
+      "+",
+      "−",
+      "·",
+      ":"
+    ],
+    "correctIndex": 2,
+    "type": "choice",
+    "speech": "Какой знак действия нужно поставить в кружок? Шестнадцать умножить на три равно три, неизвестный знак действия, шестнадцать."
+  },
+  {
+    "question": "Чему равно произведение чисел 7 и 8?",
+    "answers": [
+      "56"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Чему равно частное чисел 42 и 7?",
+    "answers": [
+      "6"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число нужно поставить в окошко, чтобы равенство 24 : 4 = □ : 5 стало верным?",
+    "answers": [
+      "30"
+    ],
+    "correctIndex": 0,
+    "speech": "Какое число нужно поставить в окошко? Двадцать четыре разделить на четыре равно неизвестное число разделить на пять."
+  },
+  {
+    "question": "Какой знак действия нужно поставить в кружок, чтобы равенство 6 · 3 = 54 ○ 3 стало верным?",
+    "answers": [
+      "+",
+      "−",
+      "·",
+      ":"
+    ],
+    "correctIndex": 3,
+    "type": "choice",
+    "speech": "Какой знак действия нужно поставить в кружок? Шесть умножить на три равно пятьдесят четыре, неизвестный знак действия, три."
+  },
+  {
+    "question": "В каком порядке нужно выполнять действия в выражении 72 − 5 · (14 − 6)?",
+    "answers": [
+      "1 → 2 → 3",
+      "2 → 3 → 1",
+      "3 → 2 → 1",
+      "3 → 1 → 2"
+    ],
+    "correctIndex": 2,
+    "type": "choice",
+    "order": true,
+    "speech": "В каком порядке нужно выполнять действия? Семьдесят два минус пять умножить на разность четырнадцати и шести. Над знаками действий стоят номера. Выбери правильную последовательность номеров."
+  },
+  {
+    "question": "Чему равно значение выражения 46 − (16 + 12) : 4?",
+    "answers": [
+      "39"
+    ],
+    "correctIndex": 0,
+    "speech": "Чему равно значение выражения? Сорок шесть минус сумма шестнадцати и двенадцати, делённая на четыре."
+  },
+  {
+    "question": "Каким действием решается задача? 32 кубика разложили по коробкам, по 8 кубиков в каждую. Сколько коробок понадобилось? Выбери знак действия.",
+    "answers": [
+      "+",
+      "−",
+      "·",
+      ":"
+    ],
+    "correctIndex": 3,
+    "type": "choice"
+  }
+];
+const el = id => document.getElementById(id);
+const welcome = el('videoWelcome');
+let questionAudio=null;
+function stopNarration(){
+  if(questionAudio){
+    questionAudio.onended=questionAudio.onerror=null;
+    questionAudio.pause();
+    questionAudio=null;
+  }
+  window.speechSynthesis?.cancel();
+  speechActive=false;
+  updateAudio();
+}
+let soundEnabled=false, speechActive=false, welcomeHeard=false;
+function updateAudio(){
+  for(const video of [welcome,el('videoSuccess'),el('videoOops')]) video.muted=!soundEnabled || speechActive;
+  welcome.muted=!soundEnabled || speechActive || welcomeHeard;
+  welcome.loop=!soundEnabled || welcomeHeard;
+  el('sound').textContent=soundEnabled?'Выключить звук':'Включить звук';
+  el('sound').setAttribute('aria-pressed',String(soundEnabled));
+}
+welcome.onended=()=>{
+  welcomeHeard=true;
+  updateAudio();
+  welcome.play().catch(()=>{});
+};
+el('sound').onclick=()=>{
+  soundEnabled=!soundEnabled;
+  if(soundEnabled){welcomeHeard=false;try{welcome.currentTime=0;}catch{}}
+  updateAudio();
+  const active=[el('videoSuccess'),el('videoOops')].find(video=>!video.hidden)||welcome;
+  active.play().catch(()=>{soundEnabled=false;updateAudio();});
+};
+let index=0, score=0, isLocked=false, generation=0, cancelReaction=null;
+function unlockInterface(){
+  isLocked=false;
+  for(const id of ['listen','answer','check']) el(id).disabled=false;
+  el('choices').querySelectorAll('button').forEach(button=>button.disabled=false);
+}
+function updateScore(){
+  el('stars').innerHTML=questions.map((_,i)=>{
+    const earned=i<score;
+    const colors=earned?['#fffbc2','#ffdb57','#d58413']:['#d0dcea','#71859e','#354359'];
+    return `<svg class="star${earned?' earned':''}" viewBox="0 0 24 26" aria-hidden="true" focusable="false"><defs><linearGradient id="gold-${i}" x1="0" y1="0" x2=".3" y2="1"><stop stop-color="${colors[0]}"/><stop offset=".5" stop-color="${colors[1]}"/><stop offset="1" stop-color="${colors[2]}"/></linearGradient></defs><path d="M12 3 15.3 9.7 22.7 10.8 17.3 16 18.6 23.4 12 19.9 5.4 23.4 6.7 16 1.3 10.8 8.7 9.7Z" fill="${earned?'#955117':'#273447'}"/><path d="m12 1 3.3 6.7 7.4 1.1-5.4 5.2 1.3 7.4-6.6-3.5-6.6 3.5 1.3-7.4-5.4-5.2 7.4-1.1Z" fill="url(#gold-${i})" stroke="${earned?'#ffe9a0':'#9eafc2'}" stroke-width=".6" stroke-linejoin="round"/><path d="M12 1v11L1.3 8.8l7.4-1.1ZM12 12l6.6 9.4-1.3-7.4 5.4-5.2Z" fill="#fff" opacity="${earned?'.3':'.12'}"/></svg>`;
+  }).join('');
+  el('stars').setAttribute('aria-label','Собрано звёзд: '+score+' из '+questions.length);
+  el('progress').max=questions.length;
+  el('progress').value=score;
+}
+function renderQuestion(){
+  el('counter').textContent='Задание '+(index+1)+' из '+questions.length;
+  const task=questions[index];
+  el('question').textContent=task.order?'В каком порядке нужно выполнять действия?':task.question;
+  const isChoice=task.type==='choice';
+  el('answer').hidden=isChoice;
+  el('choices').hidden=!isChoice;
+  el('orderExpression').hidden=!task.order;
+  el('answerLabel').textContent=isChoice?(task.order?'Выбери порядок номеров над знаками действий.':'Выбери один ответ и нажми «Проверить».'):'Нажми „Послушать“, послушай задание и запиши ответ цифрами';
+  if(isChoice) el('answerLabel').removeAttribute('for');
+  else el('answerLabel').setAttribute('for','answer');
+  el('choices').replaceChildren();
+  if(isChoice) task.answers.forEach((answer,i)=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.textContent=answer;
+    button.dataset.option=i;
+    button.setAttribute('aria-pressed','false');
+    const signNames={'+':'Сложение','−':'Вычитание','·':'Умножение',':':'Деление'};
+    if(signNames[answer]) button.setAttribute('aria-label',signNames[answer]);
+    button.onclick=()=>{
+      if(isLocked) return;
+      el('answer').value=answer;
+      el('choices').querySelectorAll('button').forEach(option=>option.setAttribute('aria-pressed',String(option===button)));
+      el('check').className='';
+      el('message').textContent='';
+    };
+    el('choices').append(button);
+  });
+  el('choices').classList.toggle('order-choices',Boolean(task.order));
+  document.querySelector('.panel').scrollTop=0;
+  el('answer').value='';
+  el('check').className='';
+  el('message').textContent='';
+  unlockInterface();
+}
+function react(video,done){
+  welcome.pause();
+  speechActive=false;
+  updateAudio();
+  const token=generation;
+  let timer,active=true;
+  function clean(){
+    active=false;
+    clearTimeout(timer);
+    video.onended=video.onerror=video.onloadedmetadata=null;
+    video.pause();
+    video.hidden=true;
+    welcome.play().catch(()=>{});
+    cancelReaction=null;
+  }
+  function finish(){
+    if(!active || token!==generation) return;
+    clean();
+    done();
+  }
+  function armTimer(){
+    clearTimeout(timer);
+    timer=setTimeout(finish, Number.isFinite(video.duration) ? (video.duration+5)*1000 : 15000);
+  }
+  cancelReaction=clean;
+  video.onended=video.onerror=finish;
+  video.onloadedmetadata=armTimer;
+  armTimer();
+  try{
+    video.currentTime=0;
+    video.hidden=false;
+    video.play().catch(finish);
+  }catch{finish();}
+}
+el('form').onsubmit=event=>{
+  event.preventDefault();
+  if(isLocked || index>=questions.length || !el('win').hidden) return;
+  const value=el('answer').value.trim().replace(/[\s,]+/g,' ').trim();
+  if(!value){el('message').textContent=questions[index].type==='choice'?'Сначала выбери ответ.':'Сначала запиши ответ.';(questions[index].type==='choice'?el('choices').querySelector('button'):el('answer')).focus();return;}
+  isLocked=true;
+  for(const id of ['listen','answer','check']) el(id).disabled=true;
+  el('choices').querySelectorAll('button').forEach(button=>button.disabled=true);
+  stopNarration();
+  const task=questions[index];
+  const correct=task.answers.indexOf(value)===task.correctIndex;
+  el('check').className=correct?'good':'bad';
+  el('message').textContent=correct?'Верно! Звезда твоя.':'Упс! Попробуй еще раз!';
+  if(correct){score++;updateScore();}
+  react(el(correct?'videoSuccess':'videoOops'),()=>{
+    if(!correct){
+      unlockInterface();
+      if(questions[index].type==='choice'){
+        el('choices').querySelector('[aria-pressed="true"]')?.focus();
+      }else{el('answer').focus();el('answer').select();}
+      return;
+    }
+    index++;
+    if(index===questions.length){
+      el('game').hidden=true;
+      el('win').hidden=false;
+      el('congrats').focus();
+    }else renderQuestion();
+  });
+};
+el('answer').oninput=()=>{el('check').className='';el('message').textContent='';};
+function speakQuestion(){
+  if(isLocked || index>=questions.length) return;
+  const speech=window.speechSynthesis;
+  const fallback='Озвучка недоступна. Прочитай задание на панели.';
+  if(!speech || typeof SpeechSynthesisUtterance==='undefined'){el('message').textContent=fallback;return;}
+  speech.cancel();
+  const line=new SpeechSynthesisUtterance(questions[index].speech || questions[index].question);
+  line.lang='ru-RU';line.rate=.88;
+  const voice=speech.getVoices().find(v=>/^ru/i.test(v.lang));
+  if(voice) line.voice=voice;
+  const token=generation, current=index;
+  line.onstart=()=>{if(token===generation && current===index){speechActive=true;updateAudio();}};
+  line.onend=()=>{if(token===generation && current===index){speechActive=false;updateAudio();}};
+  line.onerror=e=>{if(token===generation && current===index){speechActive=false;updateAudio();}if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
+  try{speech.speak(line);}catch{speechActive=false;updateAudio();el('message').textContent=fallback;}
+}
+el('listen').onclick=()=>{
+  if(isLocked || index>=questions.length || !el('win').hidden) return;
+  stopNarration();
+  el('message').textContent='';
+  speakQuestion();
+};
+function restart(){
+  generation++;
+  cancelReaction?.();
+  for(const video of [el('videoSuccess'),el('videoOops')]){video.pause();video.hidden=true;try{video.currentTime=0;}catch{}}
+  stopNarration();
+  index=score=0;
+  el('win').hidden=true;
+  el('game').hidden=false;
+  welcome.play().catch(()=>{});
+  updateScore();
+  renderQuestion();
+}
+el('restart').onclick=el('again').onclick=restart;
+restart();
+</script>
+</body>
+</html>
