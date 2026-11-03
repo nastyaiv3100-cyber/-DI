@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Звёздная лаборатория · Урок на Play</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 74% 37%,#252650,#071321 72%);color:#f6f9ff;font:16px/1.45 system-ui,sans-serif}video{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;object-position:70% center;pointer-events:none}video[hidden],[hidden]{display:none!important}header,.panel{position:fixed;border:1px solid #a4dfff55;background:linear-gradient(120deg,#102238ed,#201b3ad9);backdrop-filter:blur(14px);box-shadow:0 10px 40px #02071850}header{top:0;left:0;right:0;padding:12px clamp(12px,3vw,44px);display:flex;align-items:center;gap:16px;flex-wrap:wrap}h1{font-size:clamp(16px,2vw,26px);margin:0;margin-right:auto}small{color:#9be8f6;letter-spacing:.12em;font-weight:700}#stars{color:#ffde92;letter-spacing:.12em;white-space:nowrap}.panel{bottom:max(12px,env(safe-area-inset-bottom));left:clamp(10px,2vw,32px);width:36vw;max-height:calc(100dvh - 90px);overflow:auto;border-radius:22px;padding:clamp(16px,2vw,30px);border-top-color:#83edff99}h2{font-size:clamp(20px,2.1vw,31px);line-height:1.2;margin:12px 0}p{margin:10px 0}button,input{font:inherit;border-radius:12px;padding:10px 14px}button{cursor:pointer;background:#22344f;color:white;border:1px solid #92bada77;font-weight:650}button:disabled{cursor:wait}button:focus-visible,input:focus-visible{outline:3px solid #b899ff;outline-offset:2px}input{width:100%;margin:8px 0;color:white;background:#08121f;border:1px solid #7abbd8}#check,#again{width:100%;background:linear-gradient(100deg,#8aeaf4,#c3afff);color:#132035}#check.good{background:#82edb8}#check.bad{background:#ff9dba}#message{min-height:1.45em;color:#cee8ff}progress{display:block;width:100%;height:5px;accent-color:#8cebf7;margin:10px 0}.medal{font-size:42px;color:#ffde92}
+@media(max-width:850px){.panel{width:min(440px,53vw)}}
+@media(max-width:600px){header{gap:5px 10px;padding:8px 12px}header button{font-size:13px;padding:6px 8px}#stars{font-size:13px;letter-spacing:0}.panel{width:min(92vw,380px);padding:15px;max-height:calc(100dvh - 92px)}video{object-position:78% center}h2{font-size:21px}}
+@media(max-height:540px){header{padding-block:4px}.panel{max-height:calc(100dvh - 62px);padding:12px}.panel p{margin:5px 0}}
+
+/* All three clips share one edge-to-edge stage. */
+body{background:radial-gradient(ellipse at 75% 48%,#414052,#112d39 52%,#080f20)}
+html,body{width:100%;height:100%;background-color:#101925}
+video{object-fit:cover;object-position:center top;inset:0;width:100%;height:100%}
+header{background:none;border:0;box-shadow:none;backdrop-filter:none;pointer-events:none;align-items:center}
+header>*{pointer-events:auto}
+h1{font-size:clamp(16px,1.5vw,23px);text-shadow:0 2px 8px #020717,0 0 16px #07172a}
+#stars,header button{border:1px solid #c5f7ff69;background:#13283a85;backdrop-filter:blur(8px);border-radius:30px;padding:8px 13px}
+.panel{background:linear-gradient(130deg,#18314170,#101a3294 60%,#38284478);backdrop-filter:blur(7px) saturate(1.2);-webkit-backdrop-filter:blur(7px) saturate(1.2);border:1px solid #c8f4ff85;box-shadow:inset 0 1px 0 #fff5,inset 0 -1px 0 #ab94ff42,0 8px 28px #06122455;text-shadow:0 1px 4px #031220;padding:clamp(16px,1.5vw,24px)}
+#listen,input{background:#0c213959;border-color:#b8edff85}
+#check,#again{background:linear-gradient(110deg,#27788baf,#514e8acc);border-color:#cbf7ff9c;color:white;text-shadow:0 1px 3px #102434}
+#check.good{background:#216548}#check.bad{background:#913d58}
+input::placeholder{color:#e0ebf2}
+#message:empty{min-height:0}h2{font-size:clamp(20px,1.65vw,28px)}
+@media(max-width:600px) and (orientation:portrait){
+ video{object-position:62% top}
+ .panel{max-height:49dvh}
+}
+#choices button{font-size:28px;min-width:70px}#choices .good{background:#216548}#choices .bad{background:#913d58}
+</style>
+<video id="videoWelcome" src="../privet.mp4" autoplay muted loop playsinline></video>
+<video id="videoSuccess" src="../ura.mp4" preload="auto" muted playsinline hidden></video>
+<video id="videoOops" src="../oops.mp4" preload="auto" muted playsinline hidden></video>
+<header><h1>Звёздная лаборатория</h1><span id="stars" role="img"></span><button id="restart">Начать заново</button></header>
+<main class="panel">
+<section id="game"><small>УРОК НА PLAY · 2 КЛАСС</small><progress id="progress" max="11" value="0" aria-label="Выполнено заданий"></progress>
+<span id="counter"></span><h2 id="question"></h2>
+<button id="listen" type="button">▷ Послушать</button>
+<form id="form" autocomplete="off"><p><label id="hint" for="answer">Нажми „Послушать“, послушай задание и запиши ответ цифрами</label></p>
+<div id="choices" hidden><button type="button" data-sign=">">&gt;</button> <button type="button" data-sign="<">&lt;</button></div>
+<input inputmode="numeric" id="answer" type="text" placeholder="Ответ цифрами" spellcheck="false">
+<button id="check">Проверить</button></form><div id="message" role="status"></div></section>
+<section id="win" hidden><div class="medal">✦</div><small>11 ИЗ 11</small><h2 tabindex="-1" id="congrats">ПОЗДРАВЛЯЕМ!</h2><p>Ты прошёл все испытания и собрал 11 звёзд!</p><button id="again">Играть снова</button></section></main>
+<script>
+'use strict';
+const questions = [
+  {
+    "question": "Какое число при счёте называют между числами 46 и 48?",
+    "answers": [
+      "47"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют сразу после числа 69?",
+    "answers": [
+      "70"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют прямо перед числом 50?",
+    "answers": [
+      "49"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число на 7 больше, чем 25?",
+    "answers": [
+      "32"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число при счёте называют между числами 97 и 99?",
+    "answers": [
+      "98"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "К какому числу прибавили 30, если получили 54?",
+    "answers": [
+      "24"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число надо вычесть из 80, чтобы получить 78?",
+    "answers": [
+      "2"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число вычли из 82, если получили 5?",
+    "answers": [
+      "77"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "К какому числу прибавили 1, если получили 60?",
+    "answers": [
+      "59"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какое число на 6 меньше, чем 43?",
+    "answers": [
+      "37"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "question": "Какой знак, > или <, нужно поставить в кружок, чтобы получилось верное неравенство 48 ○ 84?",
+    "answers": [
+      ">",
+      "<"
+    ],
+    "correctIndex": 1
+  }
+];
+const el = id => document.getElementById(id);
+const welcome = el('videoWelcome');
+let index=0, score=0, isLocked=false, generation=0, cancelReaction=null;
+function unlockInterface(){
+  isLocked=false;
+  for(const button of signs){button.disabled=false;button.className="";}
+  for(const id of ['listen','answer','check']) el(id).disabled=false;
+}
+function updateScore(){
+  el('stars').textContent='★'.repeat(score)+'☆'.repeat(questions.length-score);
+  el('stars').setAttribute('aria-label','Собрано звёзд: '+score+' из 11');
+  el('progress').value=score;
+}
+function renderQuestion(){
+  const choice=questions[index].answers.length>1;
+  el('choices').hidden=!choice;
+  el('answer').hidden=el('check').hidden=choice;
+  el('hint').textContent=choice?'Послушай задание и выбери знак.':'Нажми «Послушать», послушай задание и запиши ответ цифрами.';
+  el('counter').textContent='Задание '+(index+1)+' из '+questions.length;
+  el('question').textContent=questions[index].question;
+  el('answer').value='';
+  el('check').className='';
+  el('message').textContent='';
+  unlockInterface();
+}
+function react(video,done){
+  const token=generation;
+  let timer,active=true;
+  function clean(){
+    active=false;
+    clearTimeout(timer);
+    video.onended=video.onerror=video.onloadedmetadata=null;
+    video.pause();
+    video.hidden=true;
+    cancelReaction=null;
+  }
+  function finish(){
+    if(!active || token!==generation) return;
+    clean();
+    done();
+  }
+  function armTimer(){
+    clearTimeout(timer);
+    timer=setTimeout(finish, Number.isFinite(video.duration) ? (video.duration+5)*1000 : 15000);
+  }
+  cancelReaction=clean;
+  video.onended=video.onerror=finish;
+  video.onloadedmetadata=armTimer;
+  armTimer();
+  try{
+    video.currentTime=0;
+    video.hidden=false;
+    video.play().catch(finish);
+  }catch{finish();}
+}
+const signs=el('choices').querySelectorAll('button');
+for(const button of signs) button.onclick=()=>{
+  if(isLocked) return;
+  el('answer').value=button.dataset.sign;
+  el('form').requestSubmit();
+};
+el('form').onsubmit=event=>{
+  event.preventDefault();
+  if(isLocked || index>=questions.length) return;
+  const value=el('answer').value.trim().replace(/[\s,]+/g,' ').trim();
+  if(!value){el('message').textContent='Сначала запиши ответ.';el('answer').focus();return;}
+  isLocked=true;
+  for(const button of signs) button.disabled=true;
+  for(const id of ['listen','answer','check']) el(id).disabled=true;
+  window.speechSynthesis?.cancel();
+  const task=questions[index];
+  const correct=task.answers.indexOf(value)===task.correctIndex;
+  el('check').className=correct?'good':'bad';
+  el('message').textContent=correct?'Верно! Звезда твоя.':'Упс! Попробуй еще раз!';
+  for(const button of signs) if(button.dataset.sign===value) button.className=correct?'good':'bad';
+  if(correct){score++;updateScore();}
+  react(el(correct?'videoSuccess':'videoOops'),()=>{
+    if(!correct){
+      unlockInterface();
+      el('answer').focus();
+      el('answer').select();
+      return;
+    }
+    index++;
+    if(index===questions.length){
+      el('game').hidden=true;
+      el('win').hidden=false;
+      el('congrats').focus();
+    }else renderQuestion();
+  });
+};
+el('answer').oninput=()=>{el('check').className='';el('message').textContent='';};
+el('listen').onclick=()=>{
+  const speech=window.speechSynthesis;
+  const fallback='Озвучка недоступна. Прочитай задание на панели.';
+  if(!speech){el('message').textContent=fallback;return;}
+  speech.cancel();
+  const line=new SpeechSynthesisUtterance(questions[index].question.replace(">", "больше").replace("<", "меньше").replace("○", "кружок"));
+  line.lang='ru-RU';line.rate=.88;
+  const voice=speech.getVoices().find(v=>/^ru/i.test(v.lang));
+  if(voice) line.voice=voice;
+  const token=generation, current=index;
+  line.onerror=e=>{if(token===generation && current===index && !isLocked && !['interrupted','canceled'].includes(e.error)) el('message').textContent=fallback;};
+  speech.speak(line);
+};
+function restart(){
+  generation++;
+  cancelReaction?.();
+  window.speechSynthesis?.cancel();
+  index=score=0;
+  el('win').hidden=true;
+  el('game').hidden=false;
+  welcome.play().catch(()=>{});
+  updateScore();
+  renderQuestion();
+}
+el('restart').onclick=el('again').onclick=restart;
+restart();
+</script></html>
