@@ -279,7 +279,7 @@ function speakQuestion(){
 el('listen').onclick=()=>{
   if(isLocked || index>=questions.length || !el('win').hidden) return;
   stopNarration();
-  const recording=new Audio('./'+(index+1)+'.mp3');
+  const recording=new Audio('./'+(index+1)+'.MP3');
   questionAudio=recording;
   speechActive=true;
   updateAudio();
